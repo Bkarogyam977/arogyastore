@@ -1,0 +1,11 @@
+[
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.arogyatalk",
+        "sha256_cert_fingerprints":
+          ["BD:2D:18:5B:A8:1E:91:DF:6D:CF:2D:DF:5F:B5:9C:C1:A0:66:51:62:D7:55:EF:E7:D8:B2:D0:E9:8B:AD:C3:66"]
+      }
+    }
+  ]

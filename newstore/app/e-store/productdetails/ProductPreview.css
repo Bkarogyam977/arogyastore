@@ -1,0 +1,22 @@
+/* components/ProductPreview.css */
+.product-preview {
+    position: relative;
+    display: inline-block;
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    cursor: crosshair;
+}
+
+.zoom-container {
+    position: absolute;
+    right: 500;
+    top: 0;
+    width: 200px; /* Adjust based on your needs */
+    height: 200px; /* Adjust based on your needs */
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    pointer-events: none;
+}
