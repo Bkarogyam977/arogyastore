@@ -1,5 +1,3 @@
-// components/CategorySlider.jsx
-
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
@@ -8,30 +6,30 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 const categories = [
-  { 
-    name: "Hair Wellness", 
+  {
+    name: "Hair Wellness",
     img: "/images/home-slider/hairwelness.jpg",
-    link: "e-store/categoryproduct/220" 
+    link: "e-store/categoryproduct/220",
   },
-  { 
-    name: "Heart Wellness", 
+  {
+    name: "Heart Wellness",
     img: "/images/home-slider/heartwellness.jpg",
-    link: "e-store/allproducts?practice=5&category_id=264" 
+    link: "e-store/allproducts?practice=5&category_id=264",
   },
-  { 
-    name: "Kidney Wellness", 
+  {
+    name: "Kidney Wellness",
     img: "/images/home-slider/Kidneywellness.jpg",
-    link: "e-store/allproducts?practice=5&category_id=266" 
+    link: "e-store/allproducts?practice=5&category_id=266",
   },
-  { 
-    name: "women Wellness", 
+  {
+    name: "women Wellness",
     img: "/images/home-slider/womenwellness.jpg",
-    link: "e-store/categoryproduct/328" 
+    link: "e-store/categoryproduct/328",
   },
-  { 
-    name: "Sexual Wellness", 
+  {
+    name: "Sexual Wellness",
     img: "/images/home-slider/Sexualwellnes.jpg",
-    link: "e-store/categoryproduct/244" 
+    link: "e-store/categoryproduct/244",
   },
 ];
 
@@ -41,7 +39,7 @@ export default function CategorySlider() {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [currentX, setCurrentX] = useState(0);
-  
+
   const sliderRef = useRef(null);
   const dragThreshold = 50;
 
@@ -60,24 +58,24 @@ export default function CategorySlider() {
     setCurrentX(e.touches[0].clientX);
   }, []);
 
-  const handleTouchMove = useCallback((e) => {
-    if (!isDragging) return;
-    setCurrentX(e.touches[0].clientX);
-  }, [isDragging]);
+  const handleTouchMove = useCallback(
+    (e) => {
+      if (!isDragging) return;
+      setCurrentX(e.touches[0].clientX);
+    },
+    [isDragging]
+  );
 
   const handleTouchEnd = useCallback(() => {
     if (!isDragging) return;
-    
+
     const dragDistance = startX - currentX;
-    
+
     if (Math.abs(dragDistance) > dragThreshold) {
-      if (dragDistance > 0) {
-        next();
-      } else {
-        prev();
-      }
+      if (dragDistance > 0) next();
+      else prev();
     }
-    
+
     setIsDragging(false);
     handleInteraction();
   }, [isDragging, startX, currentX, next, prev]);
@@ -89,24 +87,24 @@ export default function CategorySlider() {
     setCurrentX(e.clientX);
   }, []);
 
-  const handleMouseMove = useCallback((e) => {
-    if (!isDragging) return;
-    setCurrentX(e.clientX);
-  }, [isDragging]);
+  const handleMouseMove = useCallback(
+    (e) => {
+      if (!isDragging) return;
+      setCurrentX(e.clientX);
+    },
+    [isDragging]
+  );
 
   const handleMouseUp = useCallback(() => {
     if (!isDragging) return;
-    
+
     const dragDistance = startX - currentX;
-    
+
     if (Math.abs(dragDistance) > dragThreshold) {
-      if (dragDistance > 0) {
-        next();
-      } else {
-        prev();
-      }
+      if (dragDistance > 0) next();
+      else prev();
     }
-    
+
     setIsDragging(false);
     handleInteraction();
   }, [isDragging, startX, currentX, next, prev]);
@@ -133,7 +131,6 @@ export default function CategorySlider() {
     const timeoutId = setTimeout(() => setIsPaused(false), 5000);
     return () => clearTimeout(timeoutId);
   }, []);
-
   const handlePrev = () => {
     prev();
     handleInteraction();
@@ -144,31 +141,38 @@ export default function CategorySlider() {
     handleInteraction();
   };
 
-  const dragOffset = isDragging ? (startX - currentX) : 0;
+  const dragOffset = isDragging ? startX - currentX : 0;
 
   return (
-    <div className="py-6 pb-12 bg-white relative"> 
+    <div className="py-6 pb-12 bg-white relative">
       <h2 className="text-center text-2xl md:text-4xl font-bold text-green-800 mb-8 md:mb-16">
         Shop by Category
       </h2>
 
       <div className="relative max-w-screen-2xl mx-auto px-4 mb-8 md:mb-16">
-        
-        {/* Arrow buttons - mobile me chhote ho jaye */}
+        {/* Left Arrow */}
         <button
           onClick={handlePrev}
-          className="absolute left-0 md:left-2 top-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 bg-green-600 hover:bg-green-700 text-white rounded-full flex items-center justify-center shadow-xl z-30"
+          className="absolute left-0 md:left-2 top-1/2 -translate-y-1/2 
+          w-8 h-8 md:w-12 md:h-12 bg-green-600 hover:bg-green-700 
+          text-white rounded-full flex items-center justify-center 
+          shadow-xl z-30"
         >
           <ChevronLeft size={20} className="md:size-7" />
         </button>
+
+        {/* Right Arrow */}
         <button
           onClick={handleNext}
-          className="absolute right-0 md:right-2 top-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 bg-green-600 hover:bg-green-700 text-white rounded-full flex items-center justify-center shadow-xl z-30"
+          className="absolute right-0 md:right-2 top-1/2 -translate-y-1/2 
+          w-8 h-8 md:w-12 md:h-12 bg-green-600 hover:bg-green-700 
+          text-white rounded-full flex items-center justify-center 
+          shadow-xl z-30"
         >
           <ChevronRight size={20} className="md:size-7" />
         </button>
 
-        {/* Main slider container */}
+        {/* Cards Wrapper */}
         <div
           ref={sliderRef}
           className="flex items-center justify-center relative cursor-grab active:cursor-grabbing"
@@ -180,104 +184,135 @@ export default function CategorySlider() {
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
-          style={{
-            cursor: isDragging ? 'grabbing' : 'grab',
-          }}
+          style={{ cursor: isDragging ? "grabbing" : "grab" }}
         >
           {[-2, -1, 0, 1, 2].map((offset) => {
             const index =
               (centerIndex + offset + categories.length) % categories.length;
+
             const item = categories[index];
             const distance = Math.abs(offset);
-
             const isCenter = distance === 0;
-            // Mobile aur desktop ke liye alag-alag scale values
-            const scale = isCenter ? 
-              (1.15) :  // Desktop pe yehi rahega
-              distance === 1 ? 
-                (0.92) :  // Desktop pe yehi rahega
-                (0.8);    // Desktop pe yehi rahega
-            
-            // Mobile ke liye scale ko adjust karo
-            const mobileScale = isCenter ? 
-              (1.1) :  // Mobile me thoda chhota
-              distance === 1 ? 
-                (0.85) :  // Mobile me thoda chhota
-                (0.7);    // Mobile me thoda chhota
 
-            const opacity = isCenter ? 1 : distance === 1 ? 0.92 : 0.7;
+            /* 🔥 Desktop vs Mobile scale */
+            const scale = isCenter
+              ? window.innerWidth < 768
+                ? 1.05
+                : 1.15
+              : distance === 1
+              ? window.innerWidth < 768
+                ? 0.9
+                : 0.92
+              : 0.8;
+
+            const opacity = isCenter ? 1 : distance === 1 ? 0.9 : 0.65;
+
             const blur = isCenter ? "" : "blur-[1px] md:blur-[2px]";
 
-            const dragTransform = isDragging && isCenter ? `translateX(${dragOffset * 0.5}px)` : '';
+            const dragTransform =
+              isDragging && isCenter ? `translateX(${dragOffset * 0.5}px)` : "";
 
             return (
               <div
                 key={index}
-                className={`transition-all duration-500 ease-out flex-shrink-0 ${blur} ${
-                  isDragging ? 'transition-none' : ''
-                }`}
+                className={`transition-all duration-500 ease-out flex-shrink-0 
+                  ${isDragging ? "transition-none" : ""} ${blur}`}
                 style={{
-                  // Mobile aur desktop ke liye alag scale
-                  transform: `scale(${mobileScale}) ${dragTransform}`,
-                  '@media (min-width: 768px)': {
-                    transform: `scale(${scale}) ${dragTransform}`,
-                  },
+                  transform: `scale(${scale}) ${dragTransform}`,
                   opacity,
-                  zIndex: isCenter ? 25 : 20 - distance * 5,
-                  // Mobile aur desktop ke liye alag margins
+                  zIndex: isCenter ? 30 : 20 - distance * 3,
+
+                  /* 🔥 Mobile chhota spacing — Desktop larger spacing */
                   marginLeft:
-                    offset === -2 ? "0" : offset < 0 ? 
-                    "-1rem md:-2.5rem" :  // Mobile me chhota margin
-                    "-1rem md:-2.5rem",
+                    offset < 0
+                      ? "-1rem md:-2.5rem"
+                      : offset > 0
+                      ? "-1rem md:-2.5rem"
+                      : "0",
                   marginRight:
-                    offset === 2 ? "0" : offset > 0 ? 
-                    "-1rem md:-2.5rem" :  // Mobile me chhota margin
-                    "-1rem md:-2.5rem",
+                    offset > 0
+                      ? "-1rem md:-2.5rem"
+                      : offset < 0
+                      ? "-1rem md:-2.5rem"
+                      : "0",
                 }}
               >
+                {/* Card Container */}
                 <div
-                  className={`relative rounded-xl md:rounded-2xl overflow-hidden border-2 md:border-4 border-black ${
-                    isCenter ? "ring-2 md:ring-4 ring-white shadow-lg md:shadow-xl" : "shadow-md md:shadow-lg"
-                  } ${isDragging ? 'select-none' : ''}`}
+                  className={`relative rounded-xl md:rounded-2xl overflow-hidden 
+                  border-2 md:border-4 border-black 
+                  ${
+                    isCenter
+                      ? "ring-2 md:ring-4 ring-white shadow-lg md:shadow-xl"
+                      : "shadow-md md:shadow-lg"
+                  } ${isDragging ? "select-none" : ""}`}
                 >
-                  {/* MOBILE: h-48 w-32 (half of original), DESKTOP: h-96 md:h-[28rem] w-64 md:w-80 */}
-                  <div className="w-32 h-48 md:w-64 md:h-96 lg:w-80 lg:h-[28rem] relative">
+                  {/* Image Container - Mobile Small / Desktop Large */}
+                  <div
+                    className="
+                    w-32 h-52 
+                    md:w-64 md:h-96 
+                    lg:w-60 lg:h-[22rem] 
+                    relative
+                  "
+                  >
                     <Image
                       src={item.img}
                       alt={item.name}
                       fill
                       className="object-cover"
                       placeholder="blur"
-                      blurDataURL="data:image/png;basebase64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+4dJQAJBgPq8g0AAAAASUVORK5CYII="
-                      onError={(e) => {
-                        e.currentTarget.src = `https://via.placeholder.com/600x900/10b981/ffffff?text=${encodeURIComponent(
-                          item.name
-                        )}`;
-                      }}
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+4dJQAJBgPq8g0AAAAASUVORK5CYII="
                       draggable="false"
                       sizes="(max-width: 768px) 128px, (max-width: 1024px) 256px, 320px"
+                      onError={(e) => {
+                        e.currentTarget.src =
+                          "https://via.placeholder.com/600x900/10b981/ffffff";
+                      }}
                     />
+
+                    {/* Non-center dark overlay */}
                     {!isCenter && (
                       <div className="absolute inset-0 bg-black/60 md:bg-black/70"></div>
                     )}
                   </div>
-
-                  {/* Bottom Gray Bar - Mobile me chhota font size */}
-                  <div className="absolute bottom-0 inset-x-0 bg-gray-100/95 backdrop-blur-sm py-2 md:py-3 px-2 md:px-4 text-center">
-                    <h3 className="text-sm md:text-lg lg:text-xl font-bold text-gray-800 mb-1 md:mb-2">
+                  {/* Bottom Text + Button Bar */}
+                  <div
+                    className="
+                    absolute bottom-0 inset-x-0 
+                    bg-gray-100/95 backdrop-blur-sm 
+                    py-2 md:py-3 
+                    px-2 md:px-4 
+                    text-center
+                  "
+                  >
+                    <h3
+                      className="
+                      text-sm md:text-lg lg:text-xl 
+                      font-bold text-gray-800 
+                      mb-1 md:mb-2
+                    "
+                    >
                       {item.name}
                     </h3>
-                    <Link 
+
+                    <Link
                       href={item.link}
-                      className={`w-fit mx-auto px-3 py-1 md:px-5 md:py-1.5 rounded-full font-semibold text-xs md:text-sm transition-all inline-block ${
-                        isCenter
-                          ? "border border-green-600 md:border-2 text-green-600 hover:bg-green-600 hover:text-white"
-                          : "border border-gray-400 md:border-2 text-gray-700 hover:bg-gray-200"
-                      }`}
-                      onClick={(e) => {
-                        if (isDragging) {
-                          e.preventDefault();
+                      className={`
+                        w-fit mx-auto 
+                        px-3 py-1 
+                        md:px-5 md:py-1.5 
+                        rounded-full font-semibold 
+                        text-xs md:text-sm 
+                        transition-all inline-block
+                        ${
+                          isCenter
+                            ? "border border-green-600 md:border-2 text-green-600 hover:bg-green-600 hover:text-white"
+                            : "border border-gray-400 md:border-2 text-gray-700 hover:bg-gray-200"
                         }
+                      `}
+                      onClick={(e) => {
+                        if (isDragging) e.preventDefault();
                       }}
                     >
                       Shop Now
@@ -288,14 +323,15 @@ export default function CategorySlider() {
             );
           })}
         </div>
+
+        {/* Hint (optional) */}
+        {/* <div className="text-center mt-6 text-gray-500 text-sm">
+          💡 Drag or swipe to navigate
+        </div> */}
       </div>
     </div>
   );
 }
-
-
-
-
 
 
 
