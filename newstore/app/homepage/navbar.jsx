@@ -2,7 +2,7 @@
 import { Menu } from "antd";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ScrolebleNav } from "./scroleblenavigation";
+// import { ScrolebleNav } from "./scroleblenavigation";
 import ForIndividuals from "./navmenu/ForIndividuals";
 import For_Doctors_Comist from "./navmenu/for_doctors_comist";
 import Shop_By_Catagory from "./navmenu/shop_by_catagory";
@@ -109,9 +109,9 @@ const NavBar = () => {
 
   return (
     <div className="layout overflow-hidden">
-      <div id="scrollable-navbar" className="lg:hidden mt-16">
+      {/* <div id="scrollable-navbar" className="lg:hidden mt-16">
         <ScrolebleNav />
-      </div>
+      </div> */}
 
       <HeaderSection domainuser={domainuser} />
 
@@ -127,27 +127,6 @@ const NavBar = () => {
           selectedKeys={[selectedKey]} // Set the active key
         >
           <div className="flex font-bold text-sm md:text-xl">
-            {/* <Menu.Item
-              key="for-individuals"
-              style={{
-                color: selectedKey === "for-individuals" ? "blue" : undefined,
-              }}
-              onClick={() => handleMenuClick("for-individuals")}
-            >
-              <ForIndividuals />
-            </Menu.Item>
-            <Menu.Item
-              key="for-doctors-chemist"
-              style={{
-                color:
-                  selectedKey === "for-doctors-chemist" ? "blue" : undefined,
-              }}
-              onClick={() => handleMenuClick("for-doctors-chemist")}
-            >
-              <For_Doctors_Comist />
-            </Menu.Item> */}
-
-            {/* New Menu Items Added Here */}
             <Menu.Item
               key="shop-by-category"
               style={{
@@ -168,30 +147,6 @@ const NavBar = () => {
               <Best_Seller />
             </Menu.Item>
 
-            {/* <Menu.Item
-              key="business-opportunity"
-              style={{ color: selectedKey === "blog" ? "blue" : undefined }}
-            >
-              <Link
-                href="/business-opportunity"
-                onClick={() => handleMenuClick("blog")}
-              >
-                Business Opportunity with Us
-              </Link>
-            </Menu.Item> */}
-
-            {/* <Menu.Item key="clinics" style={{ color: selectedKey === "clinics" ? 'blue' : undefined }}>
-              <Link href="/clinics" onClick={() => handleMenuClick("clinics")}>
-                Find Clinics
-              </Link>
-            </Menu.Item> */}
-
-            {/* <Menu.Item key="ourdoctors" style={{ color: selectedKey === "ourdoctors" ? 'blue' : undefined }}>
-              <Link href="/homepage/ourdoctors" onClick={() => handleMenuClick("ourdoctors")}>
-                Find Doctors
-              </Link>
-            </Menu.Item> */}
-
             <Menu.Item
               key="e-store"
               style={{ color: selectedKey === "e-store" ? "blue" : undefined }}
@@ -199,13 +154,6 @@ const NavBar = () => {
             >
               Our Products
             </Menu.Item>
-            {/* <Menu.Item
-              key="business-opportunity"
-              style={{ color: selectedKey === "business-opportunity" ? 'blue' : undefined }}
-              onClick={() => handleMenuClick("business-opportunity")}
-            >
-              Business Opportunity
-            </Menu.Item> */}
 
             <Menu.Item
               key="aboutus"

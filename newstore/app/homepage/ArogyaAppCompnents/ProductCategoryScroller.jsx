@@ -174,7 +174,7 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
               <div className="flex space-x-4 md:space-x-6">
                 {[...Array(8)].map((_, i) => (
                   <div key={i} className="flex flex-col items-center animate-pulse flex-shrink-0">
-                    <div className="w-24 h-24 md:w-40 md:h-40 rounded-full bg-gray-200"></div>
+                    <div className="w-24 h-24 md:w-40 md:h-40 rounded-full bg-gray-200 "></div>
                     <div className="w-20 h-3 bg-gray-300 rounded mt-2"></div>
                   </div>
                 ))}
@@ -205,7 +205,7 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
                         {/* CIRCLE ICON */}
                         <motion.div
                           whileHover={circleHoverEffect}
-                          className="relative w-20 h-20 md:w-32 md:h-32 rounded-full bg-white border border-gray-200 shadow-sm overflow-hidden transition-all"
+                          className="relative w-20 h-20 md:w-32 md:h-32 rounded-full bg-white border-2 border-red-500 shadow-sm overflow-hidden transition-all"
                         >
                           <CategoryImage imageSrc={imgSrc} />
                         </motion.div>

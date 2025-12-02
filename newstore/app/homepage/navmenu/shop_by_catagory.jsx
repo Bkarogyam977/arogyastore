@@ -11,7 +11,7 @@ function ShopByCatagory() {
       children: [
         {
           key: 'Hair-Care',
-          label: <Link href="e-store/categoryproduct/328" className="text-lg font-semibold">Hair Care</Link>
+          label: <Link href="/e-store/categoryproduct/328" className="text-lg font-semibold">Hair Care</Link>
         },
         {
           key: 'Immunity-Boosters',
@@ -19,11 +19,11 @@ function ShopByCatagory() {
         },
         {
           key: 'Sexual-Wellness',
-          label: <Link href="e-store/categoryproduct/244" className="text-lg font-semibold">Sexual Wellness</Link>
+          label: <Link href="/e-store/categoryproduct/244" className="text-lg font-semibold">Sexual Wellness</Link>
         },
         {
           key: 'womwen-care',
-          label: <Link href="e-store/categoryproduct/328" className="text-lg font-semibold">Women Care</Link>
+          label: <Link href="/e-store/categoryproduct/328" className="text-lg font-semibold">Women Care</Link>
         },
         {
           key: 'Stomach-care',

@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -48,11 +47,16 @@ function Blogs() {
 
       <div className="relative">
         <Swiper
-          spaceBetween={15}
+          spaceBetween={12}
           modules={[Navigation]}
-          navigation
+          navigation={{
+            nextEl: ".swiper-button-next-blog",
+            prevEl: ".swiper-button-prev-blog",
+          }}
           breakpoints={{
-            320: { slidesPerView: 2, spaceBetween: 10 },
+            320: { slidesPerView: 1.2, spaceBetween: 10 },
+            480: { slidesPerView: 1.6, spaceBetween: 10 },
+            640: { slidesPerView: 2, spaceBetween: 12 },
             768: { slidesPerView: 2, spaceBetween: 15 },
             1024: { slidesPerView: 3, spaceBetween: 20 },
             1280: { slidesPerView: 4, spaceBetween: 25 },
@@ -62,8 +66,10 @@ function Blogs() {
             blogs.map((blog) => (
               <SwiperSlide key={blog.id}>
                 <Link href={`/blog/${blog.id}?title=${encodeURIComponent(blog.title)}`}>
-                  <div className="bg-white rounded-xl overflow-hidden shadow-md border border-lime-300 hover:shadow-xl transition-shadow duration-300 mx-1">
-                    <div className="aspect-[5/3] md:aspect-[6/3] relative">
+                  <div className="bg-white rounded-xl overflow-hidden shadow-md border border-lime-300 hover:shadow-xl transition-shadow duration-300">
+                    
+                    {/* Fully responsive image box */}
+                    <div className="relative w-full aspect-[4/3] md:aspect-[6/3]">
                       <Image
                         src={`https://healdiway.bkarogyam.com/media/${blog.featured_image}`}
                         alt={blog.title}
@@ -71,6 +77,7 @@ function Blogs() {
                         className="object-cover"
                       />
                     </div>
+
                     <div className="p-3">
                       <h3 className="text-sm md:text-base font-semibold text-center text-black line-clamp-2">
                         {blog.title}
@@ -84,13 +91,15 @@ function Blogs() {
             <div className="text-center text-gray-500 p-6">Loading blogs...</div>
           )}
         </Swiper>
+
+        
       </div>
     </div>
   );
 }
 
-
 export { Blogs };
+
 
 
 
