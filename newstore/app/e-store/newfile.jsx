@@ -43,7 +43,7 @@ export default function CategorySlider() {
   const [currentX, setCurrentX] = useState(0);
   
   const sliderRef = useRef(null);
-  const dragThreshold = 50; // Minimum drag distance to trigger slide
+  const dragThreshold = 50;
 
   // useCallback ka use karke functions ko memoize karo
   const prev = useCallback(() => {
@@ -157,31 +157,45 @@ export default function CategorySlider() {
 
   return (
     <div className="py-6 pb-12 bg-white relative"> 
-      <h2 className="text-center text-4xl font-bold text-green-800 mb-16">
+      <h2 className="text-center text-2xl md:text-4xl font-bold text-green-800 mb-8 md:mb-16">
         Shop by Category
       </h2>
 
       {/* Container with extra bottom margin */}
-      <div className="relative max-w-screen-2xl mx-auto px-4 mb-16">
+      <div className="relative max-w-screen-2xl mx-auto px-4 mb-8 md:mb-16">
         
-        {/* Arrows - fixed onClick handlers */}
+        {/* Desktop Arrows (lg and above) */}
         <button
           onClick={handlePrev}
-          className="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-green-600 hover:bg-green-700 text-white rounded-full flex items-center justify-center shadow-xl z-30"
+          className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-green-600 hover:bg-green-700 text-white rounded-full items-center justify-center shadow-xl z-30"
         >
           <ChevronLeft size={28} />
         </button>
         <button
           onClick={handleNext}
-          className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-green-600 hover:bg-green-700 text-white rounded-full flex items-center justify-center shadow-xl z-30"
+          className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-green-600 hover:bg-green-700 text-white rounded-full items-center justify-center shadow-xl z-30"
         >
           <ChevronRight size={28} />
         </button>
 
-        {/* 5 Cards Container with drag and touch events */}
+        {/* Mobile Arrows (below lg) */}
+        <button
+          onClick={handlePrev}
+          className="lg:hidden absolute left-0 md:left-2 top-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 bg-green-600 hover:bg-green-700 text-white rounded-full flex items-center justify-center shadow-xl z-30"
+        >
+          <ChevronLeft size={20} className="md:size-7" />
+        </button>
+        <button
+          onClick={handleNext}
+          className="lg:hidden absolute right-0 md:right-2 top-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 bg-green-600 hover:bg-green-700 text-white rounded-full flex items-center justify-center shadow-xl z-30"
+        >
+          <ChevronRight size={20} className="md:size-7" />
+        </button>
+
+        {/* DESKTOP VIEW - Only show on lg and above */}
         <div
           ref={sliderRef}
-          className="flex items-center justify-center relative cursor-grab active:cursor-grabbing"
+          className="hidden lg:flex items-center justify-center relative cursor-grab active:cursor-grabbing"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={handleMouseLeave}
           onMouseDown={handleMouseDown}
@@ -210,7 +224,7 @@ export default function CategorySlider() {
 
             return (
               <div
-                key={index}
+                key={`desktop-${index}`}
                 className={`transition-all duration-500 ease-out flex-shrink-0 ${blur} ${
                   isDragging ? 'transition-none' : ''
                 }`}
@@ -230,8 +244,9 @@ export default function CategorySlider() {
                     isCenter ? "ring-4 ring-white shadow-xl" : "shadow-lg"
                   } ${isDragging ? 'select-none' : ''}`}
                 >
-                  {/* Card height aur badhaya - h-96 md:h-[28rem] */}
-                  <div className="w-64 h-96 md:w-80 md:h-[28rem] relative">
+                  {/* Card height reduced by 10% - Original: w-64(256px) h-96(384px) md:w-80(320px) md:h-[28rem](448px) */}
+                  {/* Reduced by 10%: w-[230.4px] h-[345.6px] md:w-[288px] md:h-[25.2rem] */}
+                  <div className="w-[230.4px] h-[345.6px] md:w-[288px] md:h-[25.2rem] relative">
                     <Image
                       src={item.img}
                       alt={item.name}
@@ -245,6 +260,7 @@ export default function CategorySlider() {
                         )}`;
                       }}
                       draggable="false"
+                      sizes="288px"
                     />
                     {/* Light black overlay for non-center cards */}
                     {!isCenter && (
@@ -264,6 +280,113 @@ export default function CategorySlider() {
                         isCenter
                           ? "border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
                           : "border-2 border-gray-400 text-gray-700 hover:bg-gray-200"
+                      }`}
+                      onClick={(e) => {
+                        if (isDragging) {
+                          e.preventDefault();
+                        }
+                      }}
+                    >
+                      Shop Now
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* MOBILE VIEW - Only show on below lg */}
+        <div
+          className="lg:hidden flex items-center justify-center relative cursor-grab active:cursor-grabbing"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={handleMouseLeave}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          style={{
+            cursor: isDragging ? 'grabbing' : 'grab',
+          }}
+        >
+          {[-2, -1, 0, 1, 2].map((offset) => {
+            const index =
+              (centerIndex + offset + categories.length) % categories.length;
+            const item = categories[index];
+            const distance = Math.abs(offset);
+
+            const isCenter = distance === 0;
+            const scale = isCenter ? 1.15 : distance === 1 ? 0.92 : 0.8;
+            const opacity = isCenter ? 1 : distance === 1 ? 0.92 : 0.7;
+            const blur = isCenter ? "" : "blur-[1px] md:blur-[2px]";
+
+            // Apply drag transform only during drag
+            const dragTransform = isDragging && isCenter ? `translateX(${dragOffset * 0.5}px)` : '';
+
+            return (
+              <div
+                key={`mobile-${index}`}
+                className={`transition-all duration-500 ease-out flex-shrink-0 ${blur} ${
+                  isDragging ? 'transition-none' : ''
+                }`}
+                style={{
+                  transform: `scale(${scale}) ${dragTransform}`,
+                  opacity,
+                  zIndex: isCenter ? 25 : 20 - distance * 5,
+                  // Mobile aur desktop ke liye alag margins
+                  marginLeft:
+                    offset === -2 ? "0" : offset < 0 ? 
+                    "-1rem md:-2.5rem" :  // Mobile me chhota margin, desktop pe original
+                    "-1rem md:-2.5rem",
+                  marginRight:
+                    offset === 2 ? "0" : offset > 0 ? 
+                    "-1rem md:-2.5rem" :  // Mobile me chhota margin, desktop pe original
+                    "-1rem md:-2.5rem",
+                }}
+              >
+                {/* Added black border to all cards - mobile pe border-2, desktop pe border-4 */}
+                <div
+                  className={`relative rounded-xl md:rounded-2xl overflow-hidden border-2 md:border-4 border-black ${
+                    isCenter ? "ring-2 md:ring-4 ring-white shadow-lg md:shadow-xl" : "shadow-md md:shadow-lg"
+                  } ${isDragging ? 'select-none' : ''}`}
+                >
+                  {/* Card height - Mobile: h-48 w-32 (half), Desktop: h-96 md:h-[28rem] w-64 md:w-80 (original) */}
+                  <div className="w-32 h-48 md:w-64 md:h-96 lg:w-80 lg:h-[28rem] relative">
+                    <Image
+                      src={item.img}
+                      alt={item.name}
+                      fill
+                      className="object-cover"
+                      placeholder="blur"
+                      blurDataURL="data:image/png;basebase64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+4dJQAJBgPq8g0AAAAASUVORK5CYII="
+                      onError={(e) => {
+                        e.currentTarget.src = `https://via.placeholder.com/600x900/10b981/ffffff?text=${encodeURIComponent(
+                          item.name
+                        )}`;
+                      }}
+                      draggable="false"
+                      sizes="(max-width: 768px) 128px, (max-width: 1024px) 256px, 320px"
+                    />
+                    {/* Light black overlay for non-center cards */}
+                    {!isCenter && (
+                      <div className="absolute inset-0 bg-black/60 md:bg-black/70"></div>
+                    )}
+                  </div>
+
+                  {/* Bottom Gray Bar - mobile me chhota text */}
+                  <div className="absolute bottom-0 inset-x-0 bg-gray-100/95 backdrop-blur-sm py-2 md:py-3 px-2 md:px-4 text-center">
+                    <h3 className="text-sm md:text-lg lg:text-xl font-bold text-gray-800 mb-1 md:mb-2">
+                      {item.name}
+                    </h3>
+                    {/* Link component use karo individual link ke liye */}
+                    <Link 
+                      href={item.link}
+                      className={`w-fit mx-auto px-3 py-1 md:px-5 md:py-1.5 rounded-full font-semibold text-xs md:text-sm transition-all inline-block ${
+                        isCenter
+                          ? "border border-green-600 md:border-2 text-green-600 hover:bg-green-600 hover:text-white"
+                          : "border border-gray-400 md:border-2 text-gray-700 hover:bg-gray-200"
                       }`}
                       onClick={(e) => {
                         if (isDragging) {

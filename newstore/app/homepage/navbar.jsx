@@ -168,7 +168,7 @@ const NavBar = () => {
               <Best_Seller />
             </Menu.Item>
 
-            <Menu.Item
+            {/* <Menu.Item
               key="business-opportunity"
               style={{ color: selectedKey === "blog" ? "blue" : undefined }}
             >
@@ -178,7 +178,7 @@ const NavBar = () => {
               >
                 Business Opportunity with Us
               </Link>
-            </Menu.Item>
+            </Menu.Item> */}
 
             {/* <Menu.Item key="clinics" style={{ color: selectedKey === "clinics" ? 'blue' : undefined }}>
               <Link href="/clinics" onClick={() => handleMenuClick("clinics")}>
