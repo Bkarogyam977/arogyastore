@@ -95,7 +95,7 @@ function MainPage({
       />
       <Blogs />
 
-      <OfferCardScroller />
+      {/* <OfferCardScroller /> */}
       <Accordian />
 
       {/* <TopSellingProducts
@@ -109,7 +109,7 @@ function MainPage({
 
       <AIDoctorAssistant />
 
-      {userdata?.user.is_active && <JoinNetwork />}
+      {/* {userdata?.user.is_active && <JoinNetwork />} */}
 
       {!userdata?.user.is_active && <BottomNavBar />}
 

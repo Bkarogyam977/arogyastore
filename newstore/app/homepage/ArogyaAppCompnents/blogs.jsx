@@ -37,7 +37,7 @@ function Blogs() {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 pt-6 pb-16">
+    <div className="container mx-auto px-4 pt-6 pb-16 bg-white">
       <div className="flex flex-row justify-between items-center mb-4">
         <h2 className="font-bold md:text-2xl text-xl text-green-600">Trending Blogs</h2>
         <Link href="/blog/allBlog" className="text-green-600 hover:text-orange-500 transition">

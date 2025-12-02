@@ -23,6 +23,7 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const sliderRef = useRef(null);
+  const containerRef = useRef(null);
 
   // IDs to exclude
   const excludedParentIds = [295, 297, 300, 296, 298];
@@ -80,17 +81,51 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
 
   const scrollLeft = () => {
     if (sliderRef.current) {
-      const scrollAmount = isMobile ? 200 : 300;
-      sliderRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      const containerWidth = sliderRef.current.offsetWidth;
+      const scrollAmount = Math.min(containerWidth * 0.8, 400);
+      sliderRef.current.scrollBy({
+        left: -scrollAmount,
+        behavior: 'smooth'
+      });
     }
   };
 
   const scrollRight = () => {
     if (sliderRef.current) {
-      const scrollAmount = isMobile ? 200 : 300;
-      sliderRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      const containerWidth = sliderRef.current.offsetWidth;
+      const scrollAmount = Math.min(containerWidth * 0.8, 400);
+      sliderRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
     }
   };
+
+  // Check scroll position for button visibility
+  const [showLeftButton, setShowLeftButton] = useState(false);
+  const [showRightButton, setShowRightButton] = useState(true);
+
+  const checkScrollPosition = () => {
+    if (sliderRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
+      setShowLeftButton(scrollLeft > 0);
+      setShowRightButton(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  };
+
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (slider) {
+      slider.addEventListener('scroll', checkScrollPosition);
+      // Initial check
+      setTimeout(checkScrollPosition, 100);
+    }
+    return () => {
+      if (slider) {
+        slider.removeEventListener('scroll', checkScrollPosition);
+      }
+    };
+  }, [categories]);
 
   // Animation configs
   const container = {
@@ -118,7 +153,7 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
 
   if (error) {
     return (
-      <div className="w-full md:px-4 px-2 py-10 text-center">
+      <div className="w-full md:px-4 px-2 py-10 text-center bg-white"> {/* White background added */}
         <h2 className="font-bold text-2xl text-gray-800 mb-4">Shop By Categories</h2>
         <p className="text-red-500 mb-4">{error}</p>
         <button
@@ -132,7 +167,7 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
   }
 
   return (
-    <div className="w-full md:px-4 px-2 py-8">
+    <div className="w-full md:px-4 px-2 py-8 bg-white"> {/* White background added */}
       <div className="md:px-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -152,30 +187,32 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
         {/* SLIDER CONTAINER */}
         <div className="relative">
           {/* LEFT ARROW BUTTON */}
-          {categories.length > 0 && (
-            <button
+          {showLeftButton && categories.length > 0 && (
+            <motion.button
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
               onClick={scrollLeft}
               className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg border border-gray-200 hover:bg-gray-50 transition-all hidden md:flex items-center justify-center w-10 h-10"
             >
               <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-            </button>
+            </motion.button>
           )}
 
           {/* SLIDER */}
           <div
             ref={sliderRef}
             className="flex overflow-x-auto scrollbar-hide space-x-4 md:space-x-6 px-2 md:px-4 py-4"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            onScroll={checkScrollPosition}
           >
             {/* LOADING STATE */}
             {isLoading ? (
               <div className="flex space-x-4 md:space-x-6">
                 {[...Array(8)].map((_, i) => (
                   <div key={i} className="flex flex-col items-center animate-pulse flex-shrink-0">
-                    <div className="w-24 h-24 md:w-40 md:h-40 rounded-full bg-gray-200 "></div>
-                    <div className="w-20 h-3 bg-gray-300 rounded mt-2"></div>
+                    <div className="w-24 h-24 md:w-40 md:h-40 rounded-full bg-gray-200"></div> {/* Changed to gray-200 for better visibility */}
+                    <div className="w-20 h-3 bg-gray-200 rounded mt-2"></div> {/* Changed to gray-200 */}
                   </div>
                 ))}
               </div>
@@ -205,7 +242,7 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
                         {/* CIRCLE ICON */}
                         <motion.div
                           whileHover={circleHoverEffect}
-                          className="relative w-20 h-20 md:w-32 md:h-32 rounded-full bg-white border-2 border-red-500 shadow-sm overflow-hidden transition-all"
+                          className="relative w-20 h-20 md:w-32 md:h-32 rounded-full bg-white border-2 border-black shadow-sm overflow-hidden transition-all"
                         >
                           <CategoryImage imageSrc={imgSrc} />
                         </motion.div>
@@ -223,15 +260,17 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
           </div>
 
           {/* RIGHT ARROW BUTTON */}
-          {categories.length > 0 && (
-            <button
+          {showRightButton && categories.length > 0 && (
+            <motion.button
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
               onClick={scrollRight}
               className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg border border-gray-200 hover:bg-gray-50 transition-all hidden md:flex items-center justify-center w-10 h-10"
             >
               <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </button>
+            </motion.button>
           )}
         </div>
 
@@ -256,16 +295,18 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
         )}
       </div>
 
-      {/* Custom CSS to hide scrollbar */}
-      <style jsx>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
+      {/* Tailwind classes for scrollbar hide */}
+      <div className="[&_.scrollbar-hide]:overflow-x-auto [&_.scrollbar-hide]:scrollbar-hide">
+        <style jsx global>{`
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
+      </div>
     </div>
   );
 }
@@ -403,6 +444,8 @@ export default ProductCategoryScroller;
 //       }
 //     }
 //   };
+
+
 
 //   const item = {
 //     hidden: { opacity: 0, y: 20 },
