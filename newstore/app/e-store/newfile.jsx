@@ -8,30 +8,30 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 const categories = [
-  { 
-    name: "Hair Wellness", 
+  {
+    name: "Hair Wellness",
     img: "/images/home-slider/hairwelness.jpg",
-    link: "e-store/categoryproduct/220" 
+    link: "e-store/categoryproduct/220",
   },
-  { 
-    name: "Heart Wellness", 
+  {
+    name: "Heart Wellness",
     img: "/images/home-slider/heartwellness.jpg",
-    link: "e-store/allproducts?practice=5&category_id=264" 
+    link: "e-store/allproducts?practice=5&category_id=264",
   },
-  { 
-    name: "Kidney Wellness", 
+  {
+    name: "Kidney Wellness",
     img: "/images/home-slider/Kidneywellness.jpg",
-    link: "e-store/allproducts?practice=5&category_id=266" 
+    link: "e-store/allproducts?practice=5&category_id=266",
   },
-  { 
-    name: "women Wellness", 
+  {
+    name: "women Wellness",
     img: "/images/home-slider/womenwellness.jpg",
-    link: "e-store/categoryproduct/328" 
+    link: "e-store/categoryproduct/328",
   },
-  { 
-    name: "Sexual Wellness", 
+  {
+    name: "Sexual Wellness",
     img: "/images/home-slider/Sexualwellnes.jpg",
-    link: "e-store/categoryproduct/244" 
+    link: "e-store/categoryproduct/244",
   },
 ];
 
@@ -41,7 +41,7 @@ export default function CategorySlider() {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [currentX, setCurrentX] = useState(0);
-  
+
   const sliderRef = useRef(null);
   const dragThreshold = 50;
 
@@ -62,16 +62,19 @@ export default function CategorySlider() {
     setCurrentX(e.touches[0].clientX);
   }, []);
 
-  const handleTouchMove = useCallback((e) => {
-    if (!isDragging) return;
-    setCurrentX(e.touches[0].clientX);
-  }, [isDragging]);
+  const handleTouchMove = useCallback(
+    (e) => {
+      if (!isDragging) return;
+      setCurrentX(e.touches[0].clientX);
+    },
+    [isDragging]
+  );
 
   const handleTouchEnd = useCallback(() => {
     if (!isDragging) return;
-    
+
     const dragDistance = startX - currentX;
-    
+
     if (Math.abs(dragDistance) > dragThreshold) {
       if (dragDistance > 0) {
         next(); // Swipe left - next
@@ -79,7 +82,7 @@ export default function CategorySlider() {
         prev(); // Swipe right - prev
       }
     }
-    
+
     setIsDragging(false);
     handleInteraction();
   }, [isDragging, startX, currentX, next, prev]);
@@ -92,16 +95,19 @@ export default function CategorySlider() {
     setCurrentX(e.clientX);
   }, []);
 
-  const handleMouseMove = useCallback((e) => {
-    if (!isDragging) return;
-    setCurrentX(e.clientX);
-  }, [isDragging]);
+  const handleMouseMove = useCallback(
+    (e) => {
+      if (!isDragging) return;
+      setCurrentX(e.clientX);
+    },
+    [isDragging]
+  );
 
   const handleMouseUp = useCallback(() => {
     if (!isDragging) return;
-    
+
     const dragDistance = startX - currentX;
-    
+
     if (Math.abs(dragDistance) > dragThreshold) {
       if (dragDistance > 0) {
         next(); // Drag left - next
@@ -109,7 +115,7 @@ export default function CategorySlider() {
         prev(); // Drag right - prev
       }
     }
-    
+
     setIsDragging(false);
     handleInteraction();
   }, [isDragging, startX, currentX, next, prev]);
@@ -153,27 +159,26 @@ export default function CategorySlider() {
   };
 
   // Calculate drag offset for smooth dragging effect
-  const dragOffset = isDragging ? (startX - currentX) : 0;
+  const dragOffset = isDragging ? startX - currentX : 0;
 
   return (
-    <div className="py-6 pb-12 bg-white relative"> 
+    <div className="py-6 pb-12 bg-white relative">
       <h2 className="text-center text-2xl md:text-4xl font-bold text-green-800 mb-8 md:mb-16">
         Shop by Category
       </h2>
 
       {/* Container with extra bottom margin */}
       <div className="relative max-w-screen-2xl mx-auto px-4 mb-8 md:mb-16">
-        
         {/* Desktop Arrows (lg and above) */}
         <button
           onClick={handlePrev}
-          className="hidden lg:flex absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-green-600 hover:bg-green-700 text-white rounded-full items-center justify-center shadow-xl z-30"
+          className="hidden lg:flex absolute left-28 top-1/2 -translate-y-1/2 w-12 h-12 bg-green-800 hover:bg-green-700 text-white rounded-full items-center justify-center shadow-xl z-30"
         >
           <ChevronLeft size={28} />
         </button>
         <button
           onClick={handleNext}
-          className="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-green-600 hover:bg-green-700 text-white rounded-full items-center justify-center shadow-xl z-30"
+          className="hidden lg:flex absolute right-28 top-1/2 -translate-y-1/2 w-12 h-12 bg-green-800 hover:bg-green-700 text-white rounded-full items-center justify-center shadow-xl z-30"
         >
           <ChevronRight size={28} />
         </button>
@@ -181,13 +186,13 @@ export default function CategorySlider() {
         {/* Mobile Arrows (below lg) */}
         <button
           onClick={handlePrev}
-          className="lg:hidden absolute left-0 md:left-2 top-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 bg-green-600 hover:bg-green-700 text-white rounded-full flex items-center justify-center shadow-xl z-30"
+          className="lg:hidden absolute left-3 md:left-5 top-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 bg-green-600 hover:bg-green-700 text-white rounded-full flex items-center justify-center shadow-xl z-30"
         >
           <ChevronLeft size={20} className="md:size-7" />
         </button>
         <button
           onClick={handleNext}
-          className="lg:hidden absolute right-0 md:right-2 top-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 bg-green-600 hover:bg-green-700 text-white rounded-full flex items-center justify-center shadow-xl z-30"
+          className="lg:hidden absolute right-3 md:right-5 top-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 bg-green-600 hover:bg-green-700 text-white rounded-full flex items-center justify-center shadow-xl z-30"
         >
           <ChevronRight size={20} className="md:size-7" />
         </button>
@@ -195,7 +200,7 @@ export default function CategorySlider() {
         {/* DESKTOP VIEW - Only show on lg and above */}
         <div
           ref={sliderRef}
-          className="hidden lg:flex items-center justify-center relative cursor-grab active:cursor-grabbing"
+          className="hidden lg:flex items-center justify-center relative cursor-grab active:cursor-grabbing h-[400px]"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={handleMouseLeave}
           onMouseDown={handleMouseDown}
@@ -205,100 +210,99 @@ export default function CategorySlider() {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
           style={{
-            cursor: isDragging ? 'grabbing' : 'grab',
+            cursor: isDragging ? "grabbing" : "grab",
           }}
         >
-          {[-2, -1, 0, 1, 2].map((offset) => {
-            const index =
-              (centerIndex + offset + categories.length) % categories.length;
-            const item = categories[index];
-            const distance = Math.abs(offset);
+          {/* Fixed container with absolute positioning */}
+          <div className="relative w-full h-full flex items-center justify-center">
+            {[-2, -1, 0, 1, 2].map((offset) => {
+              const index =
+                (centerIndex + offset + categories.length) % categories.length;
+              const item = categories[index];
+              const distance = Math.abs(offset);
 
-            const isCenter = distance === 0;
-            const scale = isCenter ? 1.15 : distance === 1 ? 0.92 : 0.8;
-            const opacity = isCenter ? 1 : distance === 1 ? 0.92 : 0.7;
-            const blur = isCenter ? "" : "blur-[2px]";
+              const isCenter = distance === 0;
+              const scale = isCenter ? 1.15 : distance === 1 ? 0.92 : 0.8;
+              const opacity = isCenter ? 1 : distance === 1 ? 0.92 : 0.7;
 
-            // Apply drag transform only during drag
-            const dragTransform = isDragging && isCenter ? `translateX(${dragOffset * 0.5}px)` : '';
+              // Calculate translateX for positioning
+              const translateX = offset * 240; // 280px gap between cards
+              
+              // Apply drag transform
+              const dragTransform = isDragging && isCenter ? dragOffset * 0.5 : 0;
 
-            return (
-              <div
-                key={`desktop-${index}`}
-                className={`transition-all duration-500 ease-out flex-shrink-0 ${blur} ${
-                  isDragging ? 'transition-none' : ''
-                }`}
-                style={{
-                  transform: `scale(${scale}) ${dragTransform}`,
-                  opacity,
-                  zIndex: isCenter ? 25 : 20 - distance * 5,
-                  marginLeft:
-                    offset === -2 ? "0" : offset < 0 ? "-2.5rem" : "-2.5rem",
-                  marginRight:
-                    offset === 2 ? "0" : offset > 0 ? "-2.5rem" : "-2.5rem",
-                }}
-              >
-                {/* Added black border to all cards */}
+              return (
                 <div
-                  className={`relative rounded-2xl overflow-hidden border-4 border-black ${
-                    isCenter ? "ring-4 ring-white shadow-xl" : "shadow-lg"
-                  } ${isDragging ? 'select-none' : ''}`}
+                  key={`desktop-${index}`}
+                  className={`absolute transition-all duration-500 ease-out ${
+                    isDragging ? "transition-none" : ""
+                  }`}
+                  style={{
+                    transform: `translateX(${translateX + dragTransform}px) scale(${scale})`,
+                    opacity,
+                    zIndex: isCenter ? 25 : 20 - distance * 5,
+                  }}
                 >
-                  {/* Card height reduced by 10% - Original: w-64(256px) h-96(384px) md:w-80(320px) md:h-[28rem](448px) */}
-                  {/* Reduced by 10%: w-[230.4px] h-[345.6px] md:w-[288px] md:h-[25.2rem] */}
-                  <div className="w-[230.4px] h-[345.6px] md:w-[288px] md:h-[25.2rem] relative">
-                    <Image
-                      src={item.img}
-                      alt={item.name}
-                      fill
-                      className="object-cover"
-                      placeholder="blur"
-                      blurDataURL="data:image/png;basebase64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+4dJQAJBgPq8g0AAAAASUVORK5CYII="
-                      onError={(e) => {
-                        e.currentTarget.src = `https://via.placeholder.com/600x900/10b981/ffffff?text=${encodeURIComponent(
-                          item.name
-                        )}`;
-                      }}
-                      draggable="false"
-                      sizes="288px"
-                    />
-                    {/* Light black overlay for non-center cards */}
+                  {/* Added black border to all cards */}
+                  <div
+                    className={`relative rounded-xl overflow-hidden border-3 border-black ${
+                      isCenter ? "shadow-xl" : "shadow-lg"
+                    } ${isDragging ? "select-none" : ""}`}
+                  >
                     {!isCenter && (
-                      <div className="absolute inset-0 bg-black/70"></div>
+                      <div className="absolute inset-0 bg-black/70 z-20"></div>
                     )}
-                  </div>
 
-                  {/* Bottom Gray Bar - Shop Now button with individual link */}
-                  <div className="absolute bottom-0 inset-x-0 bg-gray-100/95 backdrop-blur-sm py-3 px-4 text-center">
-                    <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
-                      {item.name}
-                    </h3>
-                    {/* Link component use karo individual link ke liye */}
-                    <Link 
-                      href={item.link}
-                      className={`w-fit mx-auto px-5 py-1.5 rounded-full font-semibold text-sm transition-all inline-block ${
-                        isCenter
-                          ? "border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
-                          : "border-2 border-gray-400 text-gray-700 hover:bg-gray-200"
-                      }`}
-                      onClick={(e) => {
-                        if (isDragging) {
-                          e.preventDefault();
-                        }
-                      }}
-                    >
-                      Shop Now
-                    </Link>
+                    <div className="w-[230.4px] h-[345.6px] md:w-[300px] md:h-[26rem] relative">
+                      <Image
+                        src={item.img}
+                        alt={item.name}
+                        fill
+                        className="object-cover"
+                        placeholder="blur"
+                        blurDataURL="data:image/png;basebase64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+4dJQAJBgPq8g0AAAAASUVORK5CYII="
+                        onError={(e) => {
+                          e.currentTarget.src = `https://via.placeholder.com/600x900/10b981/ffffff?text=${encodeURIComponent(
+                            item.name
+                          )}`;
+                        }}
+                        draggable="false"
+                        sizes="288px"
+                      />
+                    </div>
+
+                    {/* Bottom Gray Bar - Shop Now button with individual link */}
+                    <div className="absolute bottom-0 inset-x-0 bg-white backdrop-blur-sm py-3 px-4 text-center">
+                      <h3 className="md:text-lg font-bold text-gray-800 mb-2">
+                        {item.name}
+                      </h3>
+                      {/* Link component use karo individual link ke liye */}
+                      <Link
+                        href={item.link}
+                        className={`w-fit mx-auto px-5 py-1.5 rounded-full font-semibold text-sm transition-all inline-block ${
+                          isCenter
+                            ? "border-2 border-black text-black hover:bg-green-600 hover:text-white"
+                            : "border-2 border-gray-400 text-gray-700 hover:bg-gray-200"
+                        }`}
+                        onClick={(e) => {
+                          if (isDragging) {
+                            e.preventDefault();
+                          }
+                        }}
+                      >
+                        Shop Now
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         {/* MOBILE VIEW - Only show on below lg */}
         <div
-          className="lg:hidden flex items-center justify-center relative cursor-grab active:cursor-grabbing"
+          className="lg:hidden flex items-center justify-center relative cursor-grab active:cursor-grabbing h-[250px]"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={handleMouseLeave}
           onMouseDown={handleMouseDown}
@@ -308,105 +312,98 @@ export default function CategorySlider() {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
           style={{
-            cursor: isDragging ? 'grabbing' : 'grab',
+            cursor: isDragging ? "grabbing" : "grab",
           }}
         >
-          {[-2, -1, 0, 1, 2].map((offset) => {
-            const index =
-              (centerIndex + offset + categories.length) % categories.length;
-            const item = categories[index];
-            const distance = Math.abs(offset);
+          {/* Fixed container with absolute positioning */}
+          <div className="relative w-full h-full flex items-center justify-center">
+            {[-2, -1, 0, 1, 2].map((offset) => {
+              const index =
+                (centerIndex + offset + categories.length) % categories.length;
+              const item = categories[index];
+              const distance = Math.abs(offset);
 
-            const isCenter = distance === 0;
-            const scale = isCenter ? 1.15 : distance === 1 ? 0.92 : 0.8;
-            const opacity = isCenter ? 1 : distance === 1 ? 0.92 : 0.7;
-            const blur = isCenter ? "" : "blur-[1px] md:blur-[2px]";
+              const isCenter = distance === 0;
+              const scale = isCenter ? 1.15 : distance === 1 ? 0.92 : 0.8;
+              const opacity = isCenter ? 1 : distance === 1 ? 0.92 : 0.7;
 
-            // Apply drag transform only during drag
-            const dragTransform = isDragging && isCenter ? `translateX(${dragOffset * 0.5}px)` : '';
+              // Calculate translateX for positioning
+              const translateX = offset * 120; // 120px gap between cards for mobile
+              
+              // Apply drag transform
+              const dragTransform = isDragging && isCenter ? dragOffset * 0.5 : 0;
 
-            return (
-              <div
-                key={`mobile-${index}`}
-                className={`transition-all duration-500 ease-out flex-shrink-0 ${blur} ${
-                  isDragging ? 'transition-none' : ''
-                }`}
-                style={{
-                  transform: `scale(${scale}) ${dragTransform}`,
-                  opacity,
-                  zIndex: isCenter ? 25 : 20 - distance * 5,
-                  // Mobile aur desktop ke liye alag margins
-                  marginLeft:
-                    offset === -2 ? "0" : offset < 0 ? 
-                    "-1rem md:-2.5rem" :  // Mobile me chhota margin, desktop pe original
-                    "-1rem md:-2.5rem",
-                  marginRight:
-                    offset === 2 ? "0" : offset > 0 ? 
-                    "-1rem md:-2.5rem" :  // Mobile me chhota margin, desktop pe original
-                    "-1rem md:-2.5rem",
-                }}
-              >
-                {/* Added black border to all cards - mobile pe border-2, desktop pe border-4 */}
+              return (
                 <div
-                  className={`relative rounded-xl md:rounded-2xl overflow-hidden border-2 md:border-4 border-black ${
-                    isCenter ? "ring-2 md:ring-4 ring-white shadow-lg md:shadow-xl" : "shadow-md md:shadow-lg"
-                  } ${isDragging ? 'select-none' : ''}`}
+                  key={`mobile-${index}`}
+                  className={`absolute transition-all duration-500 ease-out ${
+                    isDragging ? "transition-none" : ""
+                  }`}
+                  style={{
+                    transform: `translateX(${translateX + dragTransform}px) scale(${scale})`,
+                    opacity,
+                    zIndex: isCenter ? 25 : 20 - distance * 5,
+                  }}
                 >
-                  {/* Card height - Mobile: h-48 w-32 (half), Desktop: h-96 md:h-[28rem] w-64 md:w-80 (original) */}
-                  <div className="w-32 h-48 md:w-64 md:h-96 lg:w-80 lg:h-[28rem] relative">
-                    <Image
-                      src={item.img}
-                      alt={item.name}
-                      fill
-                      className="object-cover"
-                      placeholder="blur"
-                      blurDataURL="data:image/png;basebase64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+4dJQAJBgPq8g0AAAAASUVORK5CYII="
-                      onError={(e) => {
-                        e.currentTarget.src = `https://via.placeholder.com/600x900/10b981/ffffff?text=${encodeURIComponent(
-                          item.name
-                        )}`;
-                      }}
-                      draggable="false"
-                      sizes="(max-width: 768px) 128px, (max-width: 1024px) 256px, 320px"
-                    />
-                    {/* Light black overlay for non-center cards */}
+                  {/* Added black border to all cards */}
+                  <div
+                    className={`relative rounded-xl overflow-hidden border-1.5 md:border-4 border-black ${
+                      isCenter
+                        ? "shadow-lg md:shadow-xl"
+                        : "shadow-md md:shadow-lg"
+                    } ${isDragging ? "select-none" : ""}`}
+                  >
                     {!isCenter && (
-                      <div className="absolute inset-0 bg-black/60 md:bg-black/70"></div>
+                      <div className="absolute inset-0 bg-black/70 md:bg-black/40 pointer-events-none z-30 transition-opacity duration-300"></div>
                     )}
-                  </div>
 
-                  {/* Bottom Gray Bar - mobile me chhota text */}
-                  <div className="absolute bottom-0 inset-x-0 bg-gray-100/95 backdrop-blur-sm py-2 md:py-3 px-2 md:px-4 text-center">
-                    <h3 className="text-sm md:text-lg lg:text-xl font-bold text-gray-800 mb-1 md:mb-2">
-                      {item.name}
-                    </h3>
-                    {/* Link component use karo individual link ke liye */}
-                    <Link 
-                      href={item.link}
-                      className={`w-fit mx-auto px-3 py-1 md:px-5 md:py-1.5 rounded-full font-semibold text-xs md:text-sm transition-all inline-block ${
-                        isCenter
-                          ? "border border-green-600 md:border-2 text-green-600 hover:bg-green-600 hover:text-white"
-                          : "border border-gray-400 md:border-2 text-gray-700 hover:bg-gray-200"
-                      }`}
-                      onClick={(e) => {
-                        if (isDragging) {
-                          e.preventDefault();
-                        }
-                      }}
-                    >
-                      Shop Now
-                    </Link>
+                    {/* Card height - Mobile: h-48 w-32 (half), Desktop: h-96 md:h-[28rem] w-64 md:w-80 (original) */}
+                    <div className="w-36 h-52 md:w-64 md:h-96 lg:w-80 lg:h-[28rem] relative">
+                      <Image
+                        src={item.img}
+                        alt={item.name}
+                        fill
+                        className="object-cover"
+                        placeholder="blur"
+                        blurDataURL="data:image/png;basebase64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+4dJQAJBgPq8g0AAAAASUVORK5CYII="
+                        onError={(e) => {
+                          e.currentTarget.src = `https://via.placeholder.com/600x900/10b981/ffffff?text=${encodeURIComponent(
+                            item.name
+                          )}`;
+                        }}
+                        draggable="false"
+                        sizes="(max-width: 768px) 128px, (max-width: 1024px) 256px, 320px"
+                      />
+                    </div>
+
+                    {/* Bottom Gray Bar - mobile me chhota text */}
+                    <div className="absolute bottom-0 inset-x-0 bg-white backdrop-blur-sm py-2 md:py-3 px-2 md:px-4 text-center">
+                      <h3 className="text-md md:text-lg lg:text-xl font-semibold text-gray-800 mb-2 md:mb-2">
+                        {item.name}
+                      </h3>
+                      {/* Link component use karo individual link ke liye */}
+                      <Link
+                        href={item.link}
+                        className={`w-fit mx-auto px-3 py-1 md:px-5 md:py-1.5 rounded-full font-bold text-[8px] transition-all inline-block ${
+                          isCenter
+                            ? "border border-black md:border-1 text-black hover:bg-green-600 hover:text-white"
+                            : "border border-gray-400 md:border-2 text-gray-700 hover:bg-gray-200"
+                        }`}
+                        onClick={(e) => {
+                          if (isDragging) {
+                            e.preventDefault();
+                          }
+                        }}
+                      >
+                        Shop Now
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-
-        {/* Drag instruction hint */}
-        {/* <div className="text-center mt-6 text-gray-500 text-sm">
-          💡 Drag or swipe to navigate
-        </div> */}
       </div>
     </div>
   );

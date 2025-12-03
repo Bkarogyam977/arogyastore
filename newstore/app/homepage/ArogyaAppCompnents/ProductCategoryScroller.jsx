@@ -85,7 +85,7 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
       const scrollAmount = Math.min(containerWidth * 0.8, 400);
       sliderRef.current.scrollBy({
         left: -scrollAmount,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     }
   };
@@ -96,7 +96,7 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
       const scrollAmount = Math.min(containerWidth * 0.8, 400);
       sliderRef.current.scrollBy({
         left: scrollAmount,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     }
   };
@@ -116,13 +116,13 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
   useEffect(() => {
     const slider = sliderRef.current;
     if (slider) {
-      slider.addEventListener('scroll', checkScrollPosition);
+      slider.addEventListener("scroll", checkScrollPosition);
       // Initial check
       setTimeout(checkScrollPosition, 100);
     }
     return () => {
       if (slider) {
-        slider.removeEventListener('scroll', checkScrollPosition);
+        slider.removeEventListener("scroll", checkScrollPosition);
       }
     };
   }, [categories]);
@@ -132,8 +132,8 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.05 }
-    }
+      transition: { staggerChildren: 0.05 },
+    },
   };
 
   const item = {
@@ -141,20 +141,24 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
     show: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.4 }
-    }
+      transition: { duration: 0.4 },
+    },
   };
 
   const circleHoverEffect = {
     scale: 1.1,
     boxShadow: "0 8px 18px rgba(0,0,0,0.15)",
-    transition: { duration: 0.3 }
+    transition: { duration: 0.3 },
   };
 
   if (error) {
     return (
-      <div className="w-full md:px-4 px-2 py-10 text-center bg-white"> {/* White background added */}
-        <h2 className="font-bold text-2xl text-gray-800 mb-4">Shop By Categories</h2>
+      <div className="w-full md:px-4 px-2 py-10 text-center bg-white">
+        {" "}
+        {/* White background added */}
+        <h2 className="font-bold text-2xl text-gray-800 mb-4">
+          Shop By Categories
+        </h2>
         <p className="text-red-500 mb-4">{error}</p>
         <button
           onClick={loadCategory}
@@ -167,7 +171,9 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
   }
 
   return (
-    <div className="w-full md:px-4 px-2 py-8 bg-white"> {/* White background added */}
+    <div className="w-full md:px-4 px-2 py-8 bg-white">
+      {" "}
+      {/* White background added */}
       <div className="md:px-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -176,7 +182,7 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
           className="text-center mb-8"
         >
           <h2 className="font-bold text-2xl md:text-3xl text-gray-800">
-            Shop By Products <span className="text-green-600">Concern</span>
+            Shop Products By <span className="text-green-600">Concern</span>
           </h2>
           <div className="w-16 h-0.5 bg-orange-500 mx-auto my-2"></div>
           <p className="max-w-xl mx-auto text-gray-500 text-sm hidden md:block">
@@ -194,8 +200,18 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
               onClick={scrollLeft}
               className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg border border-gray-200 hover:bg-gray-50 transition-all hidden md:flex items-center justify-center w-10 h-10"
             >
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <svg
+                className="w-5 h-5 text-gray-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
             </motion.button>
           )}
@@ -203,16 +219,21 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
           {/* SLIDER */}
           <div
             ref={sliderRef}
-            className="flex overflow-x-auto scrollbar-hide space-x-4 md:space-x-6 px-2 md:px-4 py-4"
+            className="flex overflow-x-auto scrollbar-hide space-x-4 md:space-x-0 px-2 md:px-4 py-4"
             onScroll={checkScrollPosition}
           >
             {/* LOADING STATE */}
             {isLoading ? (
               <div className="flex space-x-4 md:space-x-6">
                 {[...Array(8)].map((_, i) => (
-                  <div key={i} className="flex flex-col items-center animate-pulse flex-shrink-0">
-                    <div className="w-24 h-24 md:w-40 md:h-40 rounded-full bg-gray-200"></div> {/* Changed to gray-200 for better visibility */}
-                    <div className="w-20 h-3 bg-gray-200 rounded mt-2"></div> {/* Changed to gray-200 */}
+                  <div
+                    key={i}
+                    className="flex flex-col items-center animate-pulse flex-shrink-0"
+                  >
+                    <div className="w-24 h-24 md:w-40 md:h-40 rounded-full bg-gray-200"></div>{" "}
+                    {/* Changed to gray-200 for better visibility */}
+                    <div className="w-20 h-3 bg-gray-200 rounded mt-2"></div>{" "}
+                    {/* Changed to gray-200 */}
                   </div>
                 ))}
               </div>
@@ -220,10 +241,9 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
               /* CATEGORIES SLIDER */
               <AnimatePresence>
                 {categories.map((category) => {
-                  const imgSrc =
-                    category.image
-                      ? `https://healdiway.bkarogyam.com/media/${category.image}`
-                      : "/placeholder-category.png";
+                  const imgSrc = category.image
+                    ? `https://healdiway.bkarogyam.com/media/${category.image}`
+                    : "/placeholder-category.png";
 
                   return (
                     <motion.div
@@ -233,22 +253,22 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
                       animate="show"
                       exit="hidden"
                       className="flex flex-col items-center flex-shrink-0"
-                      style={{ minWidth: isMobile ? '100px' : '160px' }}
+                      style={{ minWidth: isMobile ? "100px" : "245px" }} // card width
                     >
                       <Link
                         href={`/e-store/categoryproduct/${category.id}`}
                         className="flex flex-col items-center group"
                       >
-                        {/* CIRCLE ICON */}
+                        {/* CIRCLE ICON - increased sizes */}
                         <motion.div
                           whileHover={circleHoverEffect}
-                          className="relative w-20 h-20 md:w-32 md:h-32 rounded-full bg-white border-2 border-black shadow-sm overflow-hidden transition-all"
+                          className="relative w-24 h-24 md:w-[160px] md:h-[160px] rounded-full bg-white border-2 border-black shadow-sm overflow-hidden transition-all"
                         >
                           <CategoryImage imageSrc={imgSrc} />
                         </motion.div>
 
-                        {/* TITLE BELOW */}
-                        <h3 className="mt-2 text-center text-xs md:text-sm font-medium text-gray-800 group-hover:text-orange-600 line-clamp-2 max-w-[90px] md:max-w-[120px]">
+                        {/* TITLE BELOW - allow more width */}
+                        <h3 className="mt-2 text-center text-xs md:text-sm font-medium text-gray-800 group-hover:text-orange-600 line-clamp-2 max-w-[140px] md:max-w-[200px]">
                           {category.name}
                         </h3>
                       </Link>
@@ -267,8 +287,18 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
               onClick={scrollRight}
               className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg border border-gray-200 hover:bg-gray-50 transition-all hidden md:flex items-center justify-center w-10 h-10"
             >
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="w-5 h-5 text-gray-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </motion.button>
           )}
@@ -294,7 +324,6 @@ function ProductCategoryScroller({ categoryproduct = [] }) {
           </motion.div>
         )}
       </div>
-
       {/* Tailwind classes for scrollbar hide */}
       <div className="[&_.scrollbar-hide]:overflow-x-auto [&_.scrollbar-hide]:scrollbar-hide">
         <style jsx global>{`
@@ -317,18 +346,6 @@ export default ProductCategoryScroller;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 // "use client";
 // import React, { useState, useEffect } from "react";
 // import Image from "next/image";
@@ -338,7 +355,7 @@ export default ProductCategoryScroller;
 
 // const CategoryImage = ({ category, isMobile }) => {
 //   const [imageSrc, setImageSrc] = useState(
-//     category.image 
+//     category.image
 //       ? `https://healdiway.bkarogyam.com/media/${category.image}`
 //       : '/placeholder-category.png'
 //   );
@@ -365,7 +382,6 @@ export default ProductCategoryScroller;
 //     />
 //   );
 // };
-
 
 // function ProductCategoryScroller({ categoryproduct = [] }) {
 //   const [isMobile, setIsMobile] = useState(false);
@@ -402,8 +418,8 @@ export default ProductCategoryScroller;
 
 //   const filterCategories = (data) => {
 //     if (!Array.isArray(data)) return [];
-//     return data.filter(item => 
-//       item?.parent_data !== null && 
+//     return data.filter(item =>
+//       item?.parent_data !== null &&
 //       !excludedParentIds.includes(item?.parent_id)
 //     );
 //   };
@@ -411,7 +427,7 @@ export default ProductCategoryScroller;
 //   const loadCategory = () => {
 //     setIsLoading(true);
 //     setError(null);
-    
+
 //     const successFn = (data) => {
 //       if (!Array.isArray(data)) {
 //         throw new Error("Invalid data format received");
@@ -419,13 +435,13 @@ export default ProductCategoryScroller;
 //       setCategories(filterCategories(data));
 //       setIsLoading(false);
 //     };
-    
+
 //     const errorFn = (error) => {
 //       console.error("Error fetching categories:", error);
 //       setError(error.message || "Failed to load categories");
 //       setIsLoading(false);
 //     };
-    
+
 //     getAPI(`inv_category`, successFn, errorFn);
 //   };
 
@@ -444,8 +460,6 @@ export default ProductCategoryScroller;
 //       }
 //     }
 //   };
-
-
 
 //   const item = {
 //     hidden: { opacity: 0, y: 20 },
@@ -541,7 +555,7 @@ export default ProductCategoryScroller;
 //                         exit={{ opacity: 0, scale: 0.5 }}
 //                         className="flex flex-col items-center"
 //                       >
-//                         <Link 
+//                         <Link
 //                           href={`/e-store/categoryproduct/${category.id}`}
 //                           className="flex flex-col items-center w-full group"
 //                         >
@@ -552,7 +566,7 @@ export default ProductCategoryScroller;
 //                           >
 //                             <CategoryImage category={category} isMobile={isMobile} />
 //                           </motion.div>
-                          
+
 //                           {/* Title below the circle */}
 //                           <div className="text-center w-full">
 //                             <h3 className="font-medium text-xs md:text-sm text-gray-800 line-clamp-2 group-hover:text-orange-600 transition-colors leading-tight px-1">
@@ -607,8 +621,6 @@ export default ProductCategoryScroller;
 
 // export default ProductCategoryScroller;
 
-
-
 // "use client";
 // import React, { useState, useEffect } from "react";
 // import Image from "next/image";
@@ -650,8 +662,8 @@ export default ProductCategoryScroller;
 
 //   // Filter function to exclude unwanted categories
 //   const filterCategories = (data) => {
-//     return data.filter(item => 
-//       item.parent_data !== null && 
+//     return data.filter(item =>
+//       item.parent_data !== null &&
 //       !excludedParentIds.includes(item.parent_id)
 //     );
 //   };
