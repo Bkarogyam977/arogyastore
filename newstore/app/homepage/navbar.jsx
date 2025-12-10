@@ -157,6 +157,15 @@ const NavBar = () => {
 
             <Menu.Item
               key="aboutus"
+              style={{ color: selectedKey === "ComboPacks" ? "blue" : undefined }}
+            >
+              <Link href="/aboutus" onClick={() => handleMenuClick("aboutus")}>
+                Combo Packs
+              </Link>
+            </Menu.Item>
+
+            <Menu.Item
+              key="aboutus"
               style={{ color: selectedKey === "aboutus" ? "blue" : undefined }}
             >
               <Link href="/aboutus" onClick={() => handleMenuClick("aboutus")}>
