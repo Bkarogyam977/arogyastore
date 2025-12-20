@@ -64,13 +64,17 @@ function ScrolebleNav() {
 }
 
 const scroleblenavdata = [
+   {
+    name: 'shop-by-category',
+    url: '/homepage/navmenu/shop_by_category'
+  },
+  {
+    name: 'best-seller',
+    url: '/homepage/navmenu/best_seller'
+  },
   {
     name: 'About Us',
     url: '/aboutus'
-  },
-  {
-    name: 'Business Opportunities',
-    url: '/business-opportunity'
   },
   {
     name: 'Clinics',

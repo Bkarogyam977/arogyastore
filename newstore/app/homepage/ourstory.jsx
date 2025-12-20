@@ -53,7 +53,7 @@ function OurStory() {
   return (
     <div
       ref={sectionRef}
-      className="ourMilestone__our_milestone_container py-16 md:px-20 hidden md:inline-block"
+      className="ourMilestone__our_milestone_container py-16 md:px-20 hidden md:inline-block bg-white"
     >
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-gray-800">Our Story</h2>

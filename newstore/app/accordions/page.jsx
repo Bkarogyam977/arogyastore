@@ -170,7 +170,7 @@ const items = [
   ];
 
 const Accordian = () => (
-  <div className='container mx-auto p-6 md:p-6 hidden md:block'>
+  <div className='container mx-auto p-6 md:p-6 hidden md:block bg-white'>
     <Divider orientation="center">
       <p className='text-black md:text-4xl text-2xl font-bold'>Frequently Asked Questions(FAQs)</p>
     </Divider>
