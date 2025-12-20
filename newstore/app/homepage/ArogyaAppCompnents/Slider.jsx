@@ -76,7 +76,7 @@ const Slider = () => {
   }
 
   return (
-    <div className="md:mt-16 relative w-full h-[220px] sm:h-[280px] md:h-[380px] lg:h-[450px] xl:h-[500px] shadow-lg overflow-hidden group rounded-xl">
+    <div className="mt-6 md:mt-24  relative w-full h-[220px] sm:h-[280px] md:h-[380px] lg:h-[450px] xl:h-[500px] shadow-lg overflow-hidden group">
       {/* Show only one image */}
       {slides.length > 0 && (
         <div
@@ -95,7 +95,7 @@ const Slider = () => {
       )}
 
       {/* Dots */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+      {/* <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
         {slides.map((_, index) => (
           <div
             key={index}
@@ -104,7 +104,7 @@ const Slider = () => {
             }`}
           ></div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
