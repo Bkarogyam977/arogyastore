@@ -354,15 +354,7 @@ const ProductPage = ({ params }) => {
                     {viewers} people are viewing this right now
                   </span>
                 </div>
-
-                {/* ✅ Add to Cart Button (Meta Pixel event yahin se fire hoga) */}
-                <button
-                  onClick={handleAddToCart}
-                  className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold flex items-center justify-center transition duration-300"
-                >
-                  <FaShoppingCart className="mr-2" />
-                  Add to Cart
-                </button>
+               
               </div>
 
               {/* Price and Offer Section */}
