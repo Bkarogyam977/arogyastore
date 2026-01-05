@@ -31,19 +31,43 @@ function Offers({ productdetail, product_id, tokendata }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [opensharemodal, setOpensharemodal] = useState(false);
   const [shareurl, setShareurl] = useState(null);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // ✅ NEW: Mobile sticky cart visibility (30% scroll)
+  const [showStickyCart, setShowStickyCart] = useState(false);
 
   const router = useRouter();
   // ✅ Check if this product is already in the cart
   const cartItem = cart.items.find((item) => item.id === productdetail.id);
 
   // Keep quantity in sync with cart (if user comes back to product)
+ useEffect(() => {
+  if (cartItem) {
+    setQuantity(cartItem.quantity);
+  } else {
+    setQuantity(0); // ✅ jab product cart me nahi ho
+  }
+}, [cartItem]);
+
   useEffect(() => {
-    if (cartItem) {
-      setQuantity(cartItem.quantity);
-    }
-  }, [cartItem]);
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+
+      const scrollPercent = (scrollTop / (docHeight - windowHeight)) * 100;
+
+      if (scrollPercent >= 18) {
+        setShowStickyCart(true);
+      } else {
+        setShowStickyCart(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Format date
   const today = new Date();
@@ -72,24 +96,44 @@ function Offers({ productdetail, product_id, tokendata }) {
     return 0;
   }, [productdetail]);
 
-  const handleAddToCart = (product, tracking_id, domaintracking) => {
-    cart.addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.retail_with_tax_with_discount,
-      mrp: product.retail_with_tax,
-      image: product.thumbnail,
-      tracking_id: tracking_id ?? null,
-      domaintracking: domaintracking ?? null,
-      quantity: quantity, // ✅ Add current quantity
-    });
-  };
+ const handleAddToCart = (product, tracking_id, domaintracking) => {
+  const finalQty = quantity > 0 ? quantity : 1;
 
-  const handleCheckout = () => {
-    if (cart.items.length === 0) return;
-    setIsCartOpen(false);
-    router.push("/e-store/productdetails/addtocart/");
-  };
+  cart.addToCart({
+    id: product.id,
+    name: product.name,
+    price: product.retail_with_tax_with_discount,
+    mrp: product.retail_with_tax,
+    image: product.thumbnail,
+    tracking_id: tracking_id ?? null,
+    domaintracking: domaintracking ?? null,
+    quantity: finalQty, // ✅ yahin fix
+  });
+
+  setQuantity(finalQty); // ✅ UI sync
+};
+
+
+
+
+ const handleCheckout = () => {
+  // ✅ agar product cart me nahi hai, to 1 qty ke saath add karo
+  if (!cartItem) {
+    cart.addToCart({
+      id: productdetail.id,
+      name: productdetail.name,
+      price: productdetail.retail_with_tax_with_discount,
+      mrp: productdetail.retail_with_tax,
+      image: productdetail.thumbnail,
+      tracking_id: tokendata ?? null,
+      domaintracking: state.domaindata?.id ?? null,
+      quantity: 1,
+    });
+  }
+
+  router.push("/e-store/productdetails/addtocart/");
+};
+
 
   const postAffilieateProduct = (product, customer) => {
     const data = {
@@ -128,20 +172,17 @@ function Offers({ productdetail, product_id, tokendata }) {
     }
   };
 
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      const newQty = quantity - 1;
-      setQuantity(newQty);
+ const decreaseQuantity = () => {
+  if (quantity > 1) {
+    const newQty = quantity - 1;
+    setQuantity(newQty);
+    cart.updateQuantity(productdetail.id, newQty);
+  } else if (quantity === 1 && cartItem) {
+    cart.removeFromCart(productdetail.id);
+    setQuantity(0); // ✅ IMPORTANT
+  }
+};
 
-      if (cartItem) {
-        cart.updateQuantity(productdetail.id, newQty);
-      }
-    } else if (quantity === 1 && cartItem) {
-      // ✅ Optional: Remove product from cart when quantity hits 0
-      cart.removeFromCart(productdetail.id);
-      setQuantity(1);
-    }
-  };
 
   //   const decreaseQuantity = () => {
   //     if (quantity > 1) {
@@ -234,13 +275,15 @@ function Offers({ productdetail, product_id, tokendata }) {
           </div>
 
           {/* ✅ Quantity Selector - synced with cart */}
+          {/* {quantity > 0 && ( */}
+
           <div className="flex items-center justify-between mt-4 md:mt-5 w-full">
             <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden w-full">
               {/* Minus Button */}
               <button
                 onClick={decreaseQuantity}
                 className="p-3 text-gray-500 hover:text-indigo-600 hover:bg-gray-50 transition-colors disabled:opacity-30"
-                disabled={quantity <= 1}
+                disabled={quantity === 0}
               >
                 <FiMinus className="text-base" />
               </button>
@@ -259,6 +302,7 @@ function Offers({ productdetail, product_id, tokendata }) {
               </button>
             </div>
           </div>
+          {/* )} */}
 
           {/* Add to Cart Button */}
           <button
@@ -366,25 +410,26 @@ function Offers({ productdetail, product_id, tokendata }) {
       </a>
 
       {/* Floating Add to Cart Button */}
-      <div className="fixed bottom-0 left-0 w-full sm:hidden z-50">
-        <div className="bg-white shadow-lg p-2 flex justify-center">
-          <button
-            className="w-[90%] bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 
-                 text-white font-semibold py-2 px-4 rounded-3xl flex items-center justify-center 
-                 transition-all duration-300"
-            onClick={() => {
-              handleAddToCart(
-                productdetail,
-                tokendata ?? null,
-                state.domaindata?.id ?? null
-              );
-            }}
-          >
-            <FaShoppingCart className="mr-2" />
-            Add To Cart
-          </button>
+      {showStickyCart && (
+        <div className="fixed bottom-0 left-0 w-full sm:hidden z-50 animate-slide-up">
+          <div className="bg-white shadow-lg p-2 flex justify-center">
+            <button
+              className="w-[90%] bg-gradient-to-r from-blue-600 to-blue-500 
+              text-white font-semibold py-2 rounded-3xl flex items-center justify-center"
+              onClick={() =>
+                handleAddToCart(
+                  productdetail,
+                  tokendata ?? null,
+                  state.domaindata?.id ?? null
+                )
+              }
+            >
+              <FaShoppingCart className="mr-2" />
+              Add To Cart Now
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -147,6 +147,13 @@ const HeaderSection = ({ domainuser }) => {
       showAlways: true,
       hasDropdown: false
     },
+     {
+      icon: <ShopOutlined />,
+      label: "Combo Packs",
+      path: "/e-store/categoryproduct/459",
+      showAlways: true,
+      hasDropdown: false
+    },
     {
       icon: <InfoCircleOutlined />,
       label: "AboutUs",
