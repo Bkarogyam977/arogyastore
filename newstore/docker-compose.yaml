@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  app1:
+    container_name: arogyabharat_mission
+    build: .
+    restart: always
+    ports:
+      - "3005:3000"
+    # env_file:
+    #   - .env
+    cpus: "0.5"
