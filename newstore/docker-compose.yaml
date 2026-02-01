@@ -1,12 +1,12 @@
 version: "3.8"
 
 services:
-  app1:
-    container_name: arogyabharat_mission
+  app5:
+    container_name: arogystore
     build: .
     restart: always
     ports:
-      - "3005:3000"
+      - "3007:3000"
     # env_file:
     #   - .env
     cpus: "0.5"
