@@ -1,0 +1,28 @@
+name: Deploy Next.js App (Docker)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ${{ secrets.APP_PATH }}
+            eval "$(ssh-agent -s)"
+            ssh-add ~/.ssh/bkarogyam
+            git pull origin main
+            docker compose down
+            docker compose up -d --build
